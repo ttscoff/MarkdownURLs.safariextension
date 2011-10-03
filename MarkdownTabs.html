@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<script>
+  const pagePath = safari.extension.baseURI + 'tablinks.html';
+  function getLinks() {
+    var markdownLinks = '';
+    var template = getTemplate();
+    var tabFilter = new RegExp("^safari\-extension");
+    if (safari.extension.settings.getItem("operateon") == 'all') {
+      var windows = safari.application.browserWindows;
+      for (var i = 0; i < windows.length; ++i) {
+        var tabs = windows[i].tabs;
+        for (var j = 0; j < tabs.length; ++j) {
+          if (tabs[j].url && !tabFilter.test(tabs[j].url)) {
+            markdownLinks += template.replace(/%u/,tabs[j].url).replace(/%t/,tabs[j].title).replace(/%w/,i).replace(/%n/,j).replace(/%b/g,"\n") + "\n";
+            // markdownLinks = markdownLinks.replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+          }
+        }
+      }
+    } else {
+      var windows = safari.application.activeBrowserWindow,
+      i = 0,
+      tabs = windows.tabs;
+      for (var j = 0; j < tabs.length; ++j) {
+        if (tabs[j].url && !tabFilter.test(tabs[j].url)) {
+          markdownLinks += template.replace(/%u/,tabs[j].url).replace(/%t/,tabs[j].title).replace(/%w/,i).replace(/%n/,j).replace(/%b/g,"\n") + "\n";
+          // markdownLinks = markdownLinks.replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+        }
+      }
+    }
+    return markdownLinks;
+  }
+  function getTemplate() {
+    return safari.extension.settings.getItem("template");
+  }
+  function makeMarkdown(event) {
+	  if (event.command !== "makeMarkdown")
+        return;
+    safari.application.activeBrowserWindow.openTab().url = pagePath;
+  }
+  function processMessage(event) {
+    switch (event.name) {
+      case 'ready':
+        safari.application.activeBrowserWindow.activeTab.page.dispatchMessage("populateLinkList", getLinks());
+        safari.application.activeBrowserWindow.activeTab.page.dispatchMessage("populateTemplate", getTemplate());
+        break;
+      case 'saveTemplate':
+        safari.extension.settings.setItem("template",event.message);
+        safari.application.activeBrowserWindow.activeTab.url = pagePath;
+        break;
+      case 'resetTemplate':
+        safari.application.activeBrowserWindow.activeTab.page.dispatchMessage("populateTemplate", getTemplate());
+        break;
+      case 'closeWindow':
+        event.target.browserWindow.activeTab.close();
+        break;
+      default:
+        return;
+        break;
+    }
+  }
+
+  function performValidate(event) {
+    if (event.command === 'makeMarkdown') {
+      event.target.disabled = false;
+    }
+  }
+  safari.application.addEventListener("command", makeMarkdown, false);
+  safari.application.addEventListener("validate", performValidate, false);
+  safari.application.addEventListener("message", processMessage, false);
+</script>
+</head>
+<body></body>
+</html>

@@ -1,0 +1,43 @@
+#mainPanel { 
+  display: block !important; 
+  position: fixed !important; 
+  top: 10px !important; 
+  left: 10px !important;
+  background-color:rgba(24,24,24,0.9) !important;
+  padding: 20px; 
+  -webkit-border-radius: 15px !important; 
+  border-bottom: 1px solid #999 !important; 
+  z-index: 9999999 !important;
+  width: 90% !important;
+  max-height:80%;
+  overflow:auto;
+  text-align:center;
+}
+#textContainer {
+	color:#eee;
+	font-size:14px;
+	line-height:1.6em;
+	height:80%;
+}
+#mainPanel div {
+  padding: 5px !important; 
+  margin: 0 !important;
+}
+#markdownTextArea {
+	white-space:pre;
+	width: 95% !important;
+	font-family: 'myriad pro','lucida grande'; 
+	padding: 5px !important;
+	font-size:12px !important;
+	background-color:rgba(24,24,24,0.9);
+	color: #eee;overflow:auto;
+}
+	
+#textContainer h3 {
+	background:transparent !important;
+	color: #ccc !important;
+	font-size: 18px;
+	font-weight: normal;
+	border: none !important;
+	text-shadow: none !important;
+}

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>DefaultValue</key>
+		<string>[%w-%n]: %u "%t"</string>
+		<key>Key</key>
+		<string>template</string>
+		<key>Title</key>
+		<string>URL Format</string>
+		<key>Type</key>
+		<string>TextField</string>
+	</dict>
+	<dict>
+		<key>DefaultValue</key>
+		<string>all</string>
+		<key>Key</key>
+		<string>operateon</string>
+		<key>Title</key>
+		<string>Operates On:</string>
+		<key>Titles</key>
+		<array>
+			<string>All Windows</string>
+			<string>Current Window</string>
+		</array>
+		<key>Type</key>
+		<string>RadioButtons</string>
+		<key>Values</key>
+		<array>
+			<string>all</string>
+			<string>current</string>
+		</array>
+	</dict>
+</array>
+</plist>

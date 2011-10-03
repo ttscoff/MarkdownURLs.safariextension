@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Author</key>
+	<string>Brett Terpstra</string>
+	<key>CFBundleDisplayName</key>
+	<string>TabLinks</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.brettterpstra.tablinks</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleShortVersionString</key>
+	<string>2.0</string>
+	<key>CFBundleVersion</key>
+	<string>2.0</string>
+	<key>Chrome</key>
+	<dict>
+		<key>Global Page</key>
+		<string>MarkdownTabs.html</string>
+		<key>Toolbar Items</key>
+		<array>
+			<dict>
+				<key>Command</key>
+				<string>makeMarkdown</string>
+				<key>Identifier</key>
+				<string>makeMarkdown</string>
+				<key>Image</key>
+				<string>TabstoMarkdownToolbarIcon.png</string>
+				<key>Label</key>
+				<string>TabLinks</string>
+				<key>Tool Tip</key>
+				<string>List urls of all open tabs as templated list</string>
+			</dict>
+		</array>
+	</dict>
+	<key>Content</key>
+	<dict>
+		<key>Scripts</key>
+		<dict/>
+	</dict>
+	<key>Description</key>
+	<string>Lists open tabs using a template. %u=url, %t=title, %w=window index, %n=tab index, %b=newline</string>
+	<key>ExtensionInfoDictionaryVersion</key>
+	<string>1.0</string>
+	<key>Permissions</key>
+	<dict>
+		<key>Website Access</key>
+		<dict>
+			<key>Include Secure Pages</key>
+			<true/>
+			<key>Level</key>
+			<string>All</string>
+		</dict>
+	</dict>
+	<key>Update Manifest URL</key>
+	<string>http://brettterpstra.com/instapaperbeyond/brettterpstraplugins.plist</string>
+	<key>Website</key>
+	<string>http://brettterpstra.com</string>
+</dict>
+</plist>

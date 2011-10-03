@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>TabLinks</title>
+<script src="jquery.js"></script>
+<script src="master.js"></script>
+<link rel="stylesheet" type="text/css" href="tablinks.css" media="all" />
+</head>
+<body>
+<div id="main" class="abs">
+	<div class="abs header_upper chrome_light">
+	  TabLinks
+	</div>
+	<div class="abs header_lower chrome_dark">
+		<a href="#" class="float_left button" id="closebutton">
+			Close
+		</a>
+		<label for="template">Template:</label> <input type="text" id="template" name="template" />
+		<input type="submit" value="Save/Apply" class="button" id="savebutton"/>
+		<input type="reset" value="Reset" class="button" id="resetbutton"/>
+    <input type="submit" value="Presets" class="button float_right" id="presetsbutton"/>
+	</div>
+	<div id="main_content" class="abs">
+		<div id="main_content_inner">
+		  <p>Create a template using %u=url, %t=title, %w=window index, %n=tab index, %b=newline. Click the Presets button for examples. Double click the links to edit.</p>
+      <pre id="linkoutput">
+      </pre>
+		</div>
+	</div>
+	<div class="abs footer_lower chrome_dark">
+		<a href="#" class="button" id="selectall">
+			Select All
+		</a>
+	</div>
+</div>
+<div id="presets" style="display:none">
+  <p>Click a template to copy it to the template field.</p>
+  <dl>
+    <dt>Markdown</dt>
+    <dd>[%w-%n]: %u "%t"</dd>
+    <dt>HTML</dt>
+    <dd>&lt;a href="%u"&gt;%t&lt;/a&gt;</dd>
+    <dt>Text</dt>
+    <dd>%t%b%u%b</dd>
+  </dl>
+  
+</div>
+<script type="text/javascript" charset="utf-8">
+function selectAll(force) {
+    if ($('#presets').is(':visible')) {
+      $('#presets').fadeOut();
+    }
+    var $text = $('#linkoutput');
+    var text = $text.get(0);
+    var range,selection;
+    selection = window.getSelection();
+    if (selection.type != 'Range' || force) {
+      selection.setBaseAndExtent(text, 0, text, $text.children().length + 1);
+    }
+}
+$(document).ready(function() {
+  $('#linkoutput').bind('dblclick',function(){
+    $(this).unbind('click').attr('contentEditable','true').css('background','#fff').blur(function(){
+      $(this).attr('contentEditable','false').css('background','#eee').click(function(){
+        selectAll(false);
+      });
+    });
+  });
+  $('#linkoutput,#selectall').click(function(){
+    if ($(this).attr('id') == 'selectall')
+      selectAll(true);
+    else
+      selectAll(false);
+  });
+  safari.self.tab.dispatchMessage('ready', null);
+  $('#savebutton').click(function(){
+    safari.self.tab.dispatchMessage('saveTemplate', $('#template').val());
+  });
+  $('#resetbutton').click(function(){
+    safari.self.tab.dispatchMessage('resetTemplate', null);
+  });
+  $('#presetsbutton').click(function(){
+    if ($('#presets').is(':visible')) {
+      $('#presets').fadeOut();
+    } else {
+      $('#presets').fadeIn();
+    }
+  });
+  $('#presets dt,#presets dd').click(function(ev){
+    var newTemplate;
+    if (ev.target.tagName != 'DD') {
+      newTemplate = $(this).next('dd').text();
+    } else {
+      newTemplate = $(this).text();
+    }
+    $('#template').val(newTemplate);
+  });
+  $('#closebutton').click(function(){
+    safari.self.tab.dispatchMessage('closeWindow', null);
+  });
+});
+safari.self.addEventListener('message', function (event) {
+	switch (event.name) {
+		case 'populateLinkList':
+			$('#linkoutput').text(event.message);
+			break;
+		case 'populateTemplate':
+		  $('#template').val(event.message);
+		  break;
+		default:
+			break;
+	}
+}, false);
+
+</script>
+</body>
+</html>
